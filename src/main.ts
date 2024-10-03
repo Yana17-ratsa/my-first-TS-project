@@ -1,13 +1,16 @@
-import './style.css'
+import './style.css';
 
+//---------------------------------------------/
 /***************** LESSON 1 *****************/
+//---------------------------------------------/
+
 //! 5 basic types
 // const name: string = "Bob";
 // const lastName : string = "Wells";
 // const age : number = 37;
 // const isHappy : boolean = true;
 // const budget: null = null;
-// const status :   undefined = undefined;  
+// const status :   undefined = undefined;
 
 //? EXAMPLE
 // function LogName (name : string) {
@@ -33,10 +36,8 @@ import './style.css'
 // function displayUserProfile (user: userProfile) {
 //     return `User's name is ${user.userName} he is ${user.age} years old and he is ${user.isActive}`
 // }
- 
+
 // console.log(displayUserProfile(user));
-
-
 
 //TODO: ARRAYS
 
@@ -46,7 +47,6 @@ import './style.css'
 // }
 // function calculateTotal (array : User[]) {}
 
- 
 // const users = [
 //     {
 //         name: "bob", age: 12
@@ -60,7 +60,6 @@ import './style.css'
 // ]
 
 // console.log(calculateTotal(users));
-
 
 //TODO: unknown
 
@@ -76,15 +75,11 @@ import './style.css'
 //     return null
 // }
 
-
-
 //TODO: any
 
 // function logdetails (value: any) {
-//     console.log(`value: ${value}, Type of value: ${typeof value}`); 
+//     console.log(`value: ${value}, Type of value: ${typeof value}`);
 // }
-
-
 
 //TODO : enum (словник)
 
@@ -101,7 +96,6 @@ import './style.css'
 // // Example usage:
 // console.log(getVehicleType(VehicleType.Car));        // Output: "The vehicle type is: Audi."
 // console.log(getVehicleType(VehicleType.Motorcycle)); // Output: "The vehicle type is: Ducati."
-
 
 //TODO: Union types (you can add more tham just 2 types)
 
@@ -139,10 +133,9 @@ import './style.css'
 // //? Це для тих функцій, які нічого не повертають. Void - сигнал того, що функція нічого не повертає (наприклад, колбеки, addEventListenerS і т.д.)
 
 // function LogName2 (name : string) : void {
-//     console.log(`${name}`); 
+//     console.log(`${name}`);
 // }
 // console.log(LogName2('Mariia'));
-
 
 //TODO:  never
 // //? Для реалізації негативної типізації логіки
@@ -172,7 +165,7 @@ import './style.css'
 //         return 'hello';
 //     },
 //     sayBye () {
-//         console.log("bye");   
+//         console.log("bye");
 //     },
 //     showAge (userAge : number) {
 //         return `My age is ${userAge}`
@@ -180,3 +173,106 @@ import './style.css'
 // }
 
 // console.log(student.showAge(45));
+
+//---------------------------------------------/
+/***************** LESSON 2 *****************/
+//---------------------------------------------/
+
+//TODO: INDEX PROPERTIES
+
+// interface List {
+//   [key:string]: number | null
+// }
+
+// // !Так не робити. Багато монотонності
+// type Fruits = {
+//   apples: number;
+//   banana: number;
+//   oranges: number;
+// };
+
+// const fruits: List = {
+//   apples: 10,
+//   banana: 15,
+//   oranges: 25,
+//   pinaple: 10,
+//   peach: null
+// };
+
+// console.log(fruits);
+
+//TODO: Generics
+//? "T" - для обробки позитивної обробки функції, та undefined - для негативної
+//! Завжди опрацьовувати позитивні і негативні сценарії
+//*First exmple
+// function getFirstElement<T>(array: T[]): T | undefined {
+//   return array[0];
+// }
+
+// const numberArray = [10, 20, 30];
+// const stringArray = ['hello', 'world', 'typescript'];
+// const objectArray = [{ name: 'Alice' }, { name: 'Bob' }];
+
+// console.log(getFirstElement(numberArray));
+// console.log(getFirstElement(stringArray));
+// console.log(getFirstElement(objectArray));
+
+//*Second example  (Simple generic)
+// function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+//   return obj[key];
+// }
+
+// const person = {
+//   name: 'John',
+//   age: 30,
+//   occupation: 'Engineer',
+//   gender: 'male',
+// };
+
+// const name = getProperty(person, 'name');
+// const age = getProperty(person, 'age');
+// const gender = getProperty(person, 'gender');
+
+// console.log(name, age, gender);
+
+//*Third example ( Partial in generic)
+// interface UserProfile {
+//   username: string;
+//   email: string;
+//   age: number;
+// }
+
+// const originalProfile: UserProfile = {
+//   username: 'johndoe',
+//   email: 'john.doe@example.com',
+//   age: 28,
+// };
+// //? pARTIAL  - Значит что оновлюватися будуть тільки ті ключі, які ми зазначили, а всі інші - залишити без змін
+// function updateProfile(profile: UserProfile, updates: Partial<UserProfile>) {
+//   return {
+//     ...profile,
+//     updates,
+//   };
+// }
+
+// const updatedProfile = updateProfile(originalProfile, {
+//   email: 'new.john.doe@example.com',
+//   age: 29,
+// });
+
+// console.log(updateProfile(originalProfile, updatedProfile));
+
+//*4th example (Readonly)
+
+interface User {
+  id: number;
+  name: string;
+}
+
+const user: Readonly<User> = {
+  id: 101,
+  name: 'John',
+};
+
+user.id = 100;
+//! eror.it is  aa read-only property
